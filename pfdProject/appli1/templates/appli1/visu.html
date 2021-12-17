@@ -1,0 +1,268 @@
+<head>
+  <title> Projet Python </title>
+  <meta charset="UTF-8">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'appli1/style.css' %}">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <h1> Séoul Data Bike</h1>
+ </head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="accueil">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="visu">Visualisations</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="prediction">Predictions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="predictionSemaine">Predictions Semaine</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+ <h1> LE DATASET</h1>
+
+<h2>14 variables :</h2>
+ <p>
+  <br>- Date : year-month-day
+  <br>- Rented Bike count - Count of bikes rented at each hour
+  <br>- Temperature-Temperature in Celsius
+  <br>- Humidity - %
+  <br>- Windspeed - m/s
+  <br>- Visibility - 10m
+  <br>- Dew point temperature - Celsius
+  <br>- Solar radiation - MJ/m2
+  <br>- Rainfall - mm
+  <br>- Snowfall - cm
+  <br>- Seasons - Winter, Spring, Summer, Autumn
+  <br>- Holiday - Holiday/No holiday
+  <br>- Functional Day - NoFunc(Non Functional Hours), Fun(Functional hours)
+
+  <br>
+  <br>
+  <br>
+</p>
+<center>{{tab_head|safe}}</center>
+<p>
+  <br>
+  <br>
+  <br>
+</p>
+
+<h2>Sommaire du dataset :</h2>
+  
+<center>{{tab_desc|safe}}</center>
+
+<p>
+  <br>
+  <br>
+  <br>
+</p>
+
+<h2>Corrélation du dataset :</h2>
+
+<center> <table><tr><td> {{correlation|safe}} </td><td>Avec les corrélation on constate que :
+<br>- la Température et Dew point température sont extremement corrélés (logique).
+<br>- Rented Bike Count est le plus corrélé positivement avec la Température (0.54) et Hour (0.41)</td></tr></table> </center>
+
+
+<p>
+  <br>
+  <br>
+  <br>
+  <br>
+</p>
+
+<h1> SEASONS </h1>
+ <p>
+  <br>
+  <br>
+</p>
+ <center> <table><tr> <td>{{seasonsRentedBike|safe}} </td><td>
+- ici on peut constater que pendant l'hivers les vélos sont clairement moins utilisés
+<br>- Summer est la saison où les vélos sont les plus utilisés</td></tr></table> </center>
+ <p>
+  <br>
+  <br>
+</p>
+
+{{meteoBySeason|safe}}
+
+<center>
+   <p>
+  <br>
+  <br>
+  Ici, on observe que seulement la température va avoir des variations significatives en fonction de la météo. 
+  <br>
+  La température et dew point temperature ont une variation similaire à une différence de 10 degré. Cela est en accord avec la forte corrélation observée. 
+</p>
+</center>
+
+
+ <p>
+  <br>
+  <br>
+</p>
+{{hoursbyseason|safe}}
+
+<center>
+   <p>
+  <br>
+  <br>
+  Pour chaque saison, le total du nombre de vélos loués par heure possède une courbe similaire (petite exception pour l'hivers ou le nombre de vélos loués à 8h est aussi important qu'à 18h)
+</p>
+</center>
+
+<p>
+  <br>
+  <br>
+</p>
+
+<h1> HEURES </h1>
+ 
+ <p>
+  <br>
+  <br>
+</p>
+<center>{{image|safe}}</center>
+
+<center>
+   <p>
+  <br>
+  <br>
+  On peut observer un phénomène de pics à des heures intéressantes pouvant potentiellement être des heures de migrations pendulaires (matin 8h et soir 18-20h)
+</p>
+</center>
+
+
+
+
+
+<h2> Migrations pendulaires : </h2>
+
+<center>
+   <p>
+  <br>
+  <br>
+  Comme observé ci dessus, les migrations pendualires semblent jouer un rôle majeur dans l'explication du nombre de vélo loués :
+  <br>
+  Prenons les 9h de migrations pendulaires : <b>de 7h à 10h et de 17h à 21h</b>
+</p>
+</center>
+<center>{{migrationpendulaire|safe}}</center>
+<p>
+  <br>
+  <br>
+    On obsreve que les 2 lignes sont sensiblement les mêmes au niveau des données météos. De plus, la repartition de nombre total de vélos loué entre les 2h plages d'heure est égale (50-50). Les 9 heures de migrations pendulaire représente autant que les 15 autres heures de la journée. (Dans 37.5% de la journée nous avons 50% des vélos loués)
+  <br>
+  <br>
+</p>
+
+<h2> 4 parties de la journée : </h2>
+
+<center>
+   <p>
+  <br>
+  <br>
+  Maintenant divisons la journée en 4 parties :
+  <br>
+  Prenons la nuit de 0h à 6h, le matin de 6h à 12h, l'après-midi de 12h à 18h et la soirée de 18h à minuit.
+
+  <center> <table><tr><td> {{partiesjournees|safe}} </td><td>La soirée est la partie de la journée qui a le plus de vélos louée (37% des célos loués sont loués en soirée). 
+    <br> soirée + aprés-midi = 12h à 24h (la deuxième partie de la journée) représente près de 70% des vélos loués.</td></tr></table> </center>
+<p>
+  <br>
+  <br>
+  <br>
+  <br>
+</p>
+
+<h1> JOURS </h1>
+ 
+ <p>
+  <br>
+  <br>
+</p>
+
+<center> <table><tr><td> {{jour|safe}} </td><td>{{barjour|safe}}</td></tr></table> </center>
+
+<p>
+  <br>
+  <br>
+    On observe peu de variations entre les jours
+  <br>
+  <br>
+</p>
+
+<h2>Jour de la semaine VS week-end :</h2>
+
+<center> <table><tr><td> {{weekend|safe}} </td><td>{{weekdayline|safe}}</td></tr></table> </center>
+
+<p>
+  <br>
+  <br>
+  <br>
+  Ici on observe que le week-end et les jours de la semaine ont sensiblement les mêmes resultats. Cependant leurs evolution respectives sont bien différentes.
+  <br>On observe encore bien ce phénomène de migration pendulaire pour les jours de la semaine face à évolution différente pour les jours du week-end.
+  <br>
+</p>
+
+<p>
+  <br>
+  <br>
+  <br>
+</p>
+
+<h1> MOIS </h1>
+ 
+ <p>
+  <br>
+  <br>
+</p>
+
+<center> <table><tr><td> {{mois|safe}} </td><td> Les observations effectuées avec les saisons se retrouvent ici.</td></tr></table> </center>
+
+<p>
+  <br>
+  <br>
+
+  <br>
+  <br>
+</p>
+
+
+
+
+<h1> DONNEES METEO </h1>
+ 
+ <p>
+  <br>
+  <br>
+</p>
+
+{{temperature|safe}}
+
+<p>
+  <br>
+  <br>
+  <br>
+  <br>
+</p>
+
+  </body>
